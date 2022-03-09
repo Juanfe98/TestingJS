@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Testing with react testing library
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Definition
 
-## Available Scripts
+React testing library is created as an improvment for enzyme and allow us to test our components as if the we were the user.
 
-In the project directory, you can run:
+## Unit Testing
 
-### `yarn start`
+1. When we execute the command `npm test` or `yarn test`, all files called as `<filename>.test.js` inside the project will be executed. This means we should create our test folowing this rule.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Test Definition.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. To define our test we have two reserved words, we can use any of these: `it` or `test`.
 
-### `yarn test`
+2. Find the node (HTML element) you want to interact with in order to make your tests.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. Interact with those elements.
 
-### `yarn build`
+4. Finally you need to assert the results to see if they are as expected.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Query methods.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[Official documentation](https://testing-library.com/docs/queries/about)
 
-### `yarn eject`
+Queries are the methods that Testing Library gives you to find elements on the page. There are several types of queries ("get", "find", "query"); the difference between them is whether the query will throw an error if no element is found or if it will return a Promise and retry.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. getBy...: Returns the matching node for a query, and throw a descriptive error if no elements match or if more than one match is found (use getAllBy instead if more than one element is expected).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. queryBy...: Returns the matching node for a query, and return null if no elements match. This is useful for asserting an element that is not present. Throws an error if more than one match is found (use queryAllBy instead if this is OK).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. findBy...: Returns a Promise which resolves when an element is found which matches the given query. The promise is rejected if no element is found or if more than one element is found after a default timeout of 1000ms. If you need to find more than one element, use findAllBy.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Testing examples
 
-## Learn More
+1. Validating that a Header component render the title sended in props.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+it('Render the title sended as prop', () => {
+  render(<Header title="Test Header"/>);
+  //Getting the element by the text on it
+  const headingElement = screen.getByText(/test header/i);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  //Getting element by the role
+  const headingElement2 = screen.getByRole('heading');
 
-### Code Splitting
+  expect(headingElement2).toBeInTheDocument();
+});
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
 
-### Analyzing the Bundle Size
+## Important notes and common errors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+We are testing our components using the render method, but we test the components on complete isolation, so, when we are using third party package that needs a wrapper like `react-router` with the `link` element, the test will throw an error.
 
-### Making a Progressive Web App
+`Invariant failed: You should not use <Link> outside a <Router>`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+To Solution this problem we can create inside our test file a mock component to add the wrapper.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

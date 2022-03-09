@@ -5,9 +5,10 @@ import { Link } from "react-router-dom"
 function TodoFooter({
     numberOfIncompleteTasks
 }) {
+    const opacityValue = numberOfIncompleteTasks === 0 ? 0 : 1;
     return (
         <div className="todo-footer">
-            <p>{numberOfIncompleteTasks} {numberOfIncompleteTasks === 1 ? "task" : "tasks"} left</p>
+            <p role="paragraph" style={{opacity: opacityValue}}>{numberOfIncompleteTasks} {numberOfIncompleteTasks === 1 ? "task" : "tasks"} left</p>
             <Link to="/followers">Followers</Link>
         </div>
     )
