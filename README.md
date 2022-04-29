@@ -1,5 +1,21 @@
 # Testing React Applications
 
+## Snapshot JEST testing
+
+[Snapshot docs](https://jestjs.io/docs/snapshot-testing)
+
+Son muy utilizados cuando no queremos que el UI cambie inesperadamente.
+
+Basicamente lo que hace es crear una copia de lo que renderiza un componente y de ahí en adelante lo compara siempre con esa. Cuando el componente cambie su UI este test va a fallar, notificando que el snapshot no corresponde.
+
+### Como hacemos cuando queramos cambiar el UI?
+
+Al cambiarlo, el test va a fallar porque no corresponde el snapshot. Por esto se debe realizar la actualizacion del snapshot con el ultimo cambio realizado.
+
+Se realiza ejecutando el siguiente comando: 
+
+`jest --updateSnapshot`
+
 ## Enzyme
 
 ### Maneras de renderizar un componente para realizar las pruebas.
@@ -13,3 +29,22 @@
 ### Método debug en testing
 
 debug(): Uno de los métodos que más útil me resultó fue`wrapper.debug()`, que te permite imprimir en la consola cómo se renderizó el componente y así saber dónde le estás pifiando
+
+### Simular evento al testear
+
+ProductMock es un ejemplo de la data que debe recibir el componente como prop, que en este caso es un objeto -> Producto.
+
+En el siguiente codigo estamos testeando que siempre que se de click al boton la función handleAddToCart debe ser llamada.
+
+```javascript
+it('button should execute the function passed as proo', () => {
+  const handleAddToCart = jest.fn(); //Simulamos el evento
+  const product = mount(
+    <ProviderMock>
+      <Product product={ProductMock} handleAddToCart={handleAddToCart} />
+    </ProviderMock>
+  );
+  product.find('button').simulate('click');
+  expect(handleAddToCart).toHaveBeenCalledTimes(1);
+});
+```
