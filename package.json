@@ -1,0 +1,14 @@
+{
+  "name": "jsbase",
+  "version": "1.0.0",
+  "description": "Pruebas unitarias con JEST",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "author": "Juan Felipe Montaña Perdomo",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^28.0.1"
+  }
+}
