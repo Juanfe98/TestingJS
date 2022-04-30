@@ -14,7 +14,9 @@ Al cambiarlo, el test va a fallar porque no corresponde el snapshot. Por esto se
 
 Se realiza ejecutando el siguiente comando: 
 
-`jest --updateSnapshot`
+`jest --updateSnapshot` --> Ejecuta la actualización de todos los snapshots
+
+`jest -u <NOMBRE_DEL_TEST>` --> Ejecuta la actualización de el snapshot especificado.
 
 ## Enzyme
 

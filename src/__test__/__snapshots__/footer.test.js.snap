@@ -12,7 +12,7 @@ exports[`Footer Snapshot Component should match the UI snapshot version 1`] = `
   <p
     className="Footer-copy"
   >
-    Todos los Izquierdos Reservados
+    Testing snapshot on Footer
   </p>
 </div>
 `;
